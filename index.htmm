@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/8ca23df693.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling when the header is hidden */
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            color: #000000;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size:13px;
+            display: block; /* Show header initially */
+        }
+
+        .container {
+            width: 100%;
+            height: calc(100vh - 60px); /* Take full viewport height minus the header height */
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .subscription-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #ffffff;
+            width: 350px;
+            display: flex;
+            border-bottom: 1px solid #86868627;
+            padding: 10px;
+            align-items: center;
+            cursor: pointer;
+            
+        }
+
+        .card:hover {
+            background-color: #f9f9f9;
+        }
+
+        .card-content h3 {
+            margin: 0 0 10px;
+        }
+
+        .card-content .price {
+            font-size: 24px;
+            color: #007bff;
+            margin: 10px 0;
+        }
+
+        .card-content .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 16px;
+        }
+
+        .card-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .card-content ul li {
+            margin: 8px 0;
+        }
+
+        .card-content ul li::before {
+            content: "✔";
+            font-size: 12px;
+            color: #28a745;
+            margin-right: 10px;
+        }
+
+        .card-image img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .hidden-page {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            padding: 50px 0px;
+            overflow: auto;  
+        }
+
+        .hidden-page img {
+            max-width: 100%;
+            width:100%;
+            height: auto;
+            margin-bottom: 20px;
+            
+            
+        }
+        .back-header{
+          position: absolute;
+          top:0;
+          right:0;
+          left:0;
+          width:100%;
+          height:50px;
+          display: block;
+          border-bottom: 1px solid #86868627;
+        }
+        
+
+        .back-button {
+            position: absolute;
+            background: transparent;
+            top: 10px;
+            left: 10px;
+            color: grey;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        
+
+        .hidden-page h2{
+         font-size:20px; 
+         margin-bottom:10px;
+        }
+        .sub-text{
+          margin: 0 20px;
+          line-height:1.5;
+        }
+       .hidden-page p{
+         font-size: 15px;
+         font-weight: 700;
+         color: #494949;
+          
+       } 
+        p1{
+          display: block;
+       font-size: 15px;
+         color: #494949; 
+         margin-left:10px;
+        }
+        .sub-text .price{
+          margin: 20px 0;
+          font-size: 17px;
+         font-weight: 700;
+         color: #1f1f1f;
+        }
+      .price span{
+        font-weight:normal;
+        float:right;
+        font-size: 16px;
+        margin:0 5px;
+      }
+      .price .price-strike{
+        text-decoration: line-through;
+       font-size:15px;
+       opacity:0.5;
+      }
+.pay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #fff; /* Optional: background for better visibility */
+  
+}
+.paybtn {
+  width: 50%; /* Make buttons take full width of their parent container */
+  padding: 10px 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 7px;
+  background-color: #4CAF50; /* Button color */
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  margin:5px;
+}
+
+.paybtn:hover {
+  background-color: #45a049; /* Hover effect */
+}
+
+.paybtn-link {
+  display: block;
+  width: 48%; /* Ensure the link takes 50% width */
+}
+
+a {
+  text-decoration: none; /* Ensure the link doesn't add extra styling */
+}
+
+      .qrcode{
+        width:70%;
+      }
+      
+   
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Subscription Plans</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <div class="subscription-cards">
+            <!-- Basic Plan -->
+            <div class="card" onclick="openPage('basic')">
+                <div class="card-content">
+                    <h3>Basic</h3>
+                    <p class="price">₱50.00 <span class="old-price">₱99.00</span></p>
+                    <ul>
+                        <li>1 Day access to all</li>
+                        <li>Website & Mobile App access</li>
+                        <li>No Request Priority</li>
+                    </ul>
+                </div>
+                <div class="card-image">
+                    <img src="https://emofly.b-cdn.net/hbd_exvhac6ayb3ZKT/width:1080/plain/https://storage.googleapis.com/takeapp/media/cm4p90h3v00080dl12orhau47.jpg" alt="Basic Plan">
+                </div>
+            </div>
+
+            <!-- Standard Plan -->
+            <div class="card" onclick="openPage('standard')">
+                <div class="card-content">
+                    <h3>Standard</h3>
+                    <p class="price">₱199.00 <span class="old-price">₱299.00</span></p>
+                    <ul>
+                        <li>1 Week access to all</li>
+                        <li>Website & Mobile App access</li>
+                        <li>Request Priority</li>
+                    </ul>
+                </div>
+                <div class="card-image">
+                    <img src="https://emofly.b-cdn.net/hbd_exvhac6ayb3ZKT/width:1080/plain/https://storage.googleapis.com/takeapp/media/cm4p9fm9t000b0ckz3xvph88r.jpg" alt="Standard Plan">
+                </div>
+            </div>
+
+            <!-- Special Plan -->
+            <div class="card" onclick="openPage('special')">
+                <div class="card-content">
+                    <h3>Special</h3>
+                    <p class="price">₱299.00 <span class="old-price">₱499.00</span></p>
+                    <ul>
+                        <li>Lifetime access to all</li>
+                        <li>Website & Mobile App access</li>
+                        <li>High Request Priority</li>
+                    </ul>
+                </div>
+                <div class="card-image">
+                    <img src="https://emofly.b-cdn.net/hbd_exvhac6ayb3ZKT/width:1080/plain/https://storage.googleapis.com/takeapp/media/cm4p9gz1s00050cjvaqdu5otl.jpg" alt="Special Plan">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Hidden Pages -->
+<div id="basic" class="hidden-page">
+  <div class="back-header">
+    <button class="back-button" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+  </div>
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUNNnLWo48vDPMAgVwLpE01_1evcyRU81ikjyaifEjWNZJ6r7KXCbUB0fBCsUpfMH7jebM_dboOLNSZlDLEm71AsOsEk3sLMjdxEAiLPAxjEY6wNKuQ8jnKmz2tVLpoGy9deHGUa1LTUId63Zu9YQVNtxEYN5j9p_UrCq_bP2Bm3D8hKL68YF-F4e-ouve/s2048/1000111555.jpg" alt="Basic Plan">
+  <div class="sub-text">   
+    <h2>Basic Plan</h2>
+    <p>Benifits include:</p>
+    <p>- 1 Day access to all</p>
+    <p>- Website & Mobile App access</p>
+    <p>- No Request Priority</p>
+    
+    <p class="price">Price: 
+      <span class="price-strike">₱99.00</span>
+      <span class="price-orig">₱50.00</span>
+    </p>
+    <hr><br/>
+    <p style="text-align:center">Payment Method: Gcash</p>
+    <p style="font-weight:normal;text-align:center; margin:5px 5px 0 5px; opacity:0.8">Instruction: Download the QR Code and Scan using the Gcash scanner or manually send the payment to the number provided above</p>
+    <img class="qrcode" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTbtxNUTu6vuupE3yP_5iBjFiNK0aaM8nQYIn38bLKWnv0WdGIUwKrJ8AFqwrR_kz1BOOAU9-SPwO25mtxJT_UI-RaJMjgXAKPPML7q1Z0YIyHx6WM2SsWr1HBj2bosvrGryV3TjENH-dRjgbAlcEWDMiRYqgE4ii27z-FE2WofNo5oVpmODHd0JSThi1r/s1714/1000111557.png" />
+
+    <div class="pay">
+      <button class="paybtn" onclick="downloadQRCode('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTbtxNUTu6vuupE3yP_5iBjFiNK0aaM8nQYIn38bLKWnv0WdGIUwKrJ8AFqwrR_kz1BOOAU9-SPwO25mtxJT_UI-RaJMjgXAKPPML7q1Z0YIyHx6WM2SsWr1HBj2bosvrGryV3TjENH-dRjgbAlcEWDMiRYqgE4ii27z-FE2WofNo5oVpmODHd0JSThi1r/s1714/1000111557.png')">Download QR Code</button>
+      <button class="paybtn" onclick="openGCash()">Open GCash</button>
+    </div>
+  </div>
+</div>
+
+<div id="standard" class="hidden-page">
+  <div class="back-header">
+    <button class="back-button" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+  </div>
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUNNnLWo48vDPMAgVwLpE01_1evcyRU81ikjyaifEjWNZJ6r7KXCbUB0fBCsUpfMH7jebM_dboOLNSZlDLEm71AsOsEk3sLMjdxEAiLPAxjEY6wNKuQ8jnKmz2tVLpoGy9deHGUa1LTUId63Zu9YQVNtxEYN5j9p_UrCq_bP2Bm3D8hKL68YF-F4e-ouve/s2048/1000111555.jpg" alt="Standard Plan">
+  <div class="sub-text">   
+    <h2>Standard Plan</h2>
+    <p>Benifits include:</p>
+    <p>- 1 Week Day access to all</p>
+    <p>- Website & Mobile App access</p>
+    <p>- Request Priority</p>
+
+    <p class="price">Price: 
+      <span class="price-strike">₱299.00</span>
+      <span class="price-orig">₱150.00</span>
+    </p>
+    <hr><br/>
+    <p style="text-align:center">Payment Method: Gcash</p>
+    <p style="font-weight:normal;text-align:center; margin:5px 5px 0 5px; opacity:0.8">Instruction: Download the QR Code and Scan using the Gcash scanner or manually send the payment to the number provided above</p>
+    <img class="qrcode" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhpy50RpAuFnMHr92C6CarjhV24ePNHG7FCXEbruCpQeQkLIqJjrInPDT6VZ9JKXNM1jchpgXkCRavgCM4O_4KqUI5gOLYGcUSAFiWh7Zb9Aas9zMEv_pv5t1zQbXqHuU6G91FdABsH4KGyQSpyOs6YSayYPxXZst7_DPJLv7583wdzbBmWudH9rh3VxRkD/s1715/1000111565.png" />
+
+    <div class="pay">
+      <button class="paybtn" onclick="downloadQRCode('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhpy50RpAuFnMHr92C6CarjhV24ePNHG7FCXEbruCpQeQkLIqJjrInPDT6VZ9JKXNM1jchpgXkCRavgCM4O_4KqUI5gOLYGcUSAFiWh7Zb9Aas9zMEv_pv5t1zQbXqHuU6G91FdABsH4KGyQSpyOs6YSayYPxXZst7_DPJLv7583wdzbBmWudH9rh3VxRkD/s1715/1000111565.png')">Download QR Code</button>
+      <button class="paybtn" onclick="openGCash()">Open GCash</button>
+    </div>
+  </div>
+</div>
+
+<div id="special" class="hidden-page">
+  <div class="back-header">
+    <button class="back-button" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+  </div>
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUNNnLWo48vDPMAgVwLpE01_1evcyRU81ikjyaifEjWNZJ6r7KXCbUB0fBCsUpfMH7jebM_dboOLNSZlDLEm71AsOsEk3sLMjdxEAiLPAxjEY6wNKuQ8jnKmz2tVLpoGy9deHGUa1LTUId63Zu9YQVNtxEYN5j9p_UrCq_bP2Bm3D8hKL68YF-F4e-ouve/s2048/1000111555.jpg" alt="Special Plan">
+  <div class="sub-text">   
+    <h2>Special Plan</h2>
+    <p>Benifits include:</p>
+    <p>- Lifetime access to all</p>
+    <p>- Website & Mobile App access</p>
+    <p>- High Request Priority</p>
+    
+    <p class="price">Price: 
+      <span class="price-strike">₱499.00</span>
+      <span class="price-orig">₱299.00</span>
+    </p>
+    <hr><br/>
+    <p style="text-align:center">Payment Method: Gcash</p>
+     <p style="font-weight:normal;text-align:center; margin:5px 5px 0 5px; opacity:0.8">Instruction: Download the QR Code and Scan using the Gcash scanner or manually send the payment to the number provided above</p>
+    <img class="qrcode" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuZIj75BcYLwqReAslIKQbi4JGTiuAnbdHoRTbtnSgcfRHYo5ncm30nLcplCdw8ksQ4dx3rzsxxpL1MWm5AXRxawnYmxu2nvfCMS_JgSkLaFF8oVoG5GP_8lAktPZ3fPRUsyIfquBc4yPZh6T1UkQVU1_9LhMv4viWTwiFGYlGP76LCFSo7FbQ-vs93lRl/s1714/1000111559.jpg" />
+
+    <div class="pay">
+      <button class="paybtn" onclick="downloadQRCode('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuZIj75BcYLwqReAslIKQbi4JGTiuAnbdHoRTbtnSgcfRHYo5ncm30nLcplCdw8ksQ4dx3rzsxxpL1MWm5AXRxawnYmxu2nvfCMS_JgSkLaFF8oVoG5GP_8lAktPZ3fPRUsyIfquBc4yPZh6T1UkQVU1_9LhMv4viWTwiFGYlGP76LCFSo7FbQ-vs93lRl/s1714/1000111559.jpg')">Download QR Code</button>
+      <button class="paybtn" onclick="openGCash()">Open GCash</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function downloadQRCode(qrCodeUrl) {
+    const link = document.createElement('a');
+    link.href = qrCodeUrl;
+    link.download = 'qr_code.png'; // Set the default file name
+    link.click(); // Trigger the download
+  }
+
+  function openGCash() {
+    window.open("https://play.google.com/store/apps/details?id=com.globe.gcash.android", "_blank");
+  }
+
+  function goBack() {
+    window.history.back();
+  }
+</script>
+
+
+    <script>
+        function openPage(pageId) {
+            // Hide the header
+            document.querySelector('.header').style.display = 'none';
+
+            // Hide main content
+            document.querySelector('.main-content').style.display = 'none';
+
+            // Show the selected page
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        function goBack() {
+            // Show the header
+            document.querySelector('.header').style.display = 'block';
+
+            // Show main content
+            document.querySelector('.main-content').style.display = 'block';
+
+            // Hide all hidden pages
+            document.querySelectorAll('.hidden-page').forEach(page => {
+                page.style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
