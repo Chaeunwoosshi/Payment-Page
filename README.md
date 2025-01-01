@@ -1,1 +1,1 @@
-[m]https://chaeunwoosshi.github.io/Payment-Page/
+https://chaeunwoosshi.github.io/Payment-Page/
